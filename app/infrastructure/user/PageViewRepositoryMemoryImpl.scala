@@ -19,12 +19,10 @@ class PageViewRepositoryMemoryImpl extends PageViewRepository {
   /**
     * Retrieves all pages visited by a user.
     *
-    * @param userId         user id
-    * @param startTimestamp page views from this timestamp (if given otherwise current timestamp)
-    * @param endTimestamp   page views till this timestamp in past (if given otherwise no limit)
+    * @param userId user id
     * @return pages visited
     */
-  override def getUserPageViews(userId: UUID, startTimestamp: Option[Long], endTimestamp: Option[Long]): Future[Seq[PageView]] = {
+  override def getUserPageViews(userId: UUID): Future[Seq[PageView]] = {
     Future.successful(pageViewStore.filter(_.userId == userId))
   }
 

@@ -1,6 +1,7 @@
 package infrastructure.user
 
 import java.util.UUID
+import javax.inject.Singleton
 
 import domain.user.{PageView, PageViewRepository}
 
@@ -9,6 +10,7 @@ import scala.concurrent.Future
 /**
   * Memory implementation of [[PageViewRepository]].
   */
+@Singleton
 class PageViewRepositoryMemoryImpl extends PageViewRepository {
 
   /**
@@ -23,7 +25,7 @@ class PageViewRepositoryMemoryImpl extends PageViewRepository {
     * @return pages visited
     */
   override def getUserPageViews(userId: UUID): Future[Seq[PageView]] = {
-    Future.successful(pageViewStore.filter(_.user_id == userId))
+    Future.successful(this.pageViewStore.filter(_.user_id == userId))
   }
 
   /**

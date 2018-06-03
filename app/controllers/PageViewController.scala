@@ -1,5 +1,6 @@
 package controllers
 
+import java.time.Instant
 import javax.inject.Inject
 
 import domain.user.{PageView, PageViewRepository}
@@ -31,8 +32,7 @@ class PageViewController @Inject()(cc: ControllerComponents, pageViewRepository:
       s"Http request received on /v1/page route implemented by pageView action with body : ${maybeJson.map(Json.prettyPrint(_))}"
     )
 
-    val maybePageView: Option[PageView] = maybeJson.map(_.as[PageView])
-    maybePageView match {
+    maybeJson.map(_.as[PageView]) match {
       case Some(pageView) => pageViewRepository.saveUserPageView(pageView).map(_ => Ok(""))
       case None => Future.successful(BadRequest("Page view JSON is invalid"))
     }

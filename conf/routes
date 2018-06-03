@@ -4,3 +4,4 @@
 # ~~~~
 
 POST    /v1/page                    controllers.PageViewController.pageView
+GET     /v1/user/:userid            controllers.UserProfileController.getUserProfile(userid: String)

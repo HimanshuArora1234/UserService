@@ -6,7 +6,6 @@ import java.util.UUID
 import domain.user.PageView
 import infrastructure.user.PageViewRepositoryMemoryImpl
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 
 /**

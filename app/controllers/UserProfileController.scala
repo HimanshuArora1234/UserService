@@ -37,7 +37,7 @@ class UserProfileController @Inject()(
     val userUUID = UUID.fromString(userid)
 
     pageViewRepository.getUserPageViews(userUUID)
-      .map(userProfileService.generateUserProfile(userUUID, _))
+      .map(userProfileService.generateUserProfileStats(userUUID, _))
       .map(profile => Ok(Json.toJson(profile)))
       .recover {
         case ex: Throwable => logger.error(s"Failed to generate user profile stats for user $userid because of ", ex)

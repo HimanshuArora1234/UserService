@@ -12,29 +12,35 @@ import domain.user.{PageView, UserProfile}
 class UserProfileService {
 
   /**
-    * Generates [[UserProfile]] stats of last few days.
+    * Generates [[UserProfile]] stats of last seven days.
     *
     * @param userId        user id
     * @param userPageViews page viewed by user
-    * @param statDays      stats to be generated for last `statDays` days
     * @return user's profile stats
     */
-  def generateUserProfile(userId: UUID, userPageViews: Seq[PageView], statDays: Int = 7): UserProfile = {
+  def generateUserProfileStats(userId: UUID, userPageViews: Seq[PageView]): UserProfile = {
 
     val currentTimestamp: Long = Instant.now.toEpochMilli
-    val statDaysBeforeTimestamp: Long = Instant.now.minus(statDays, ChronoUnit.DAYS).toEpochMilli
-    val pageViewsInLastStatDays: Seq[PageView] = userPageViews.filter(pV =>
-      pV.user_id == userId && pV.timestamp >= statDaysBeforeTimestamp && pV.timestamp <= currentTimestamp
+    val sevenDaysBeforeTimestamp: Long = Instant.now.minus(7, ChronoUnit.DAYS).toEpochMilli
+    val pageViewsInLastSevenDays: Seq[PageView] = userPageViews.filter(pV =>
+      pV.user_id == userId && pV.timestamp >= sevenDaysBeforeTimestamp && pV.timestamp <= currentTimestamp
     )
 
-    val numberOfPagesVisitedInLastSevenDays: Int = pageViewsInLastStatDays.length
+    val numberOfPagesVisitedInLastSevenDays: Int = pageViewsInLastSevenDays.length
 
-    val maxVisitedPageInLastSevenDays: String = if(pageViewsInLastStatDays.isEmpty) "" else pageViewsInLastStatDays.map(_.name).max
+    val maxVisitedPageInLastSevenDays: String = if (pageViewsInLastSevenDays.isEmpty) "" else {
+      pageViewsInLastSevenDays
+        .map(_.name)
+        .groupBy(identity)
+        .mapValues(_.size)
+        .maxBy(_._2)
+        ._1
+    }
 
-    val numberOfDaysActiveInLastSevenDays: Int = (1 to statDays).aggregate((0, Instant.now))(
+    val numberOfDaysActiveInLastSevenDays: Int = (1 to 7).aggregate((0, Instant.now))(
       (countInstantTuple, _) => (
         if (
-          isPageViewed(pageViewsInLastStatDays, countInstantTuple._2, countInstantTuple._2.minus(1, ChronoUnit.DAYS))
+          isPageViewed(pageViewsInLastSevenDays, countInstantTuple._2, countInstantTuple._2.minus(1, ChronoUnit.DAYS))
         ) countInstantTuple._1 + 1 else countInstantTuple._1,
         countInstantTuple._2.minus(1, ChronoUnit.DAYS)
       ),
@@ -61,7 +67,6 @@ class UserProfileService {
   private def isPageViewed(userPageViews: Seq[PageView], start: Instant, end: Instant): Boolean = {
     userPageViews.exists(pV => pV.timestamp > end.toEpochMilli && pV.timestamp <= start.toEpochMilli)
   }
-
 
 
 }

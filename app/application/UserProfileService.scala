@@ -39,9 +39,9 @@ class UserProfileService {
 
     val numberOfDaysActiveInLastSevenDays: Int = (1 to 7).aggregate((0, Instant.now))(
       (countInstantTuple, _) => (
-        if (
-          isPageViewed(pageViewsInLastSevenDays, countInstantTuple._2, countInstantTuple._2.minus(1, ChronoUnit.DAYS))
-        ) countInstantTuple._1 + 1 else countInstantTuple._1,
+        if (isPageViewed(pageViewsInLastSevenDays, countInstantTuple._2, countInstantTuple._2.minus(1, ChronoUnit.DAYS)))
+          countInstantTuple._1 + 1
+        else countInstantTuple._1,
         countInstantTuple._2.minus(1, ChronoUnit.DAYS)
       ),
       (countInstantTuple1, countInstantTuple2) => (countInstantTuple1._1 + countInstantTuple2._1, countInstantTuple1._2)

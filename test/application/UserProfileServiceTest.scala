@@ -39,7 +39,7 @@ class UserProfileServiceTest extends PlaySpec {
 
   "UserProfileService" should {
 
-    "should generate correct stats of user profile for last 7 days" in {
+    "generate correct stats of user profile for last 7 days" in {
 
       val userProfile: UserProfile = userProfileService.generateUserProfileStats(userId, Seq(pageView1, pageView2, pageView3, pageView4))
 

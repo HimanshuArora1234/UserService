@@ -25,12 +25,12 @@ class PageViewRepositoryMemoryImplTest extends PlaySpec
 
   "PageViewRepositoryMemoryImpl" should {
 
-    "should save the user page view & return it when retrieving" in {
+    "save the user page view & return it when retrieving" in {
       pageViewRepositoryMemoryImpl.saveUserPageView(pageView).futureValue
       pageViewRepositoryMemoryImpl.getUserPageViews(userId).futureValue.contains(pageView) mustBe true
     }
 
-    "should delete user's all page views" in {
+    "delete user's all page views" in {
       pageViewRepositoryMemoryImpl.deleteUserPageViews(userId).futureValue
       pageViewRepositoryMemoryImpl.getUserPageViews(userId).futureValue.contains(pageView) mustBe false
     }

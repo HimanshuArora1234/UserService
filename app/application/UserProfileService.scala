@@ -28,7 +28,7 @@ class UserProfileService {
     )
 
     val numberOfPagesVisitedInLastSevenDays: Int = pageViewsInLastSevenDays.length
-    val maxVisitedPageInLastSevenDays: String = pageViewsInLastSevenDays.map(_.name).max
+    val maxVisitedPageInLastSevenDays: String = if(pageViewsInLastSevenDays.isEmpty) "" else pageViewsInLastSevenDays.map(_.name).max
 
     val numberOfDaysActiveInLastSevenDays: Int = (1 to statDays).aggregate((0, Instant.now))(
       (x, y) => (

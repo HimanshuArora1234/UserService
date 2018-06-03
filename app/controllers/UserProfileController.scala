@@ -33,7 +33,7 @@ class UserProfileController @Inject()(
     */
   def getUserProfile(userid: String) = Action.async { implicit request: Request[AnyContent] =>
 
-    logger.info(s"Http request received on /v1/user/:$userid route implemented by getUserProfile action")
+    logger.info(s"Http request received on GET /v1/user/:$userid route implemented by getUserProfile action")
     val userUUID = UUID.fromString(userid)
 
     pageViewRepository.getUserPageViews(userUUID)

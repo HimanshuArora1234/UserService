@@ -1,6 +1,6 @@
 package controllers
 
-import java.time.Instant
+import java.util.UUID
 import javax.inject.Inject
 
 import domain.user.{PageView, PageViewRepository}
@@ -19,7 +19,7 @@ class PageViewController @Inject()(cc: ControllerComponents, pageViewRepository:
   val logger = Logger.logger
 
   /**
-    * Posts a page view [[domain.user.PageView]].
+    * Action to Post a page view [[domain.user.PageView]].
     *
     * The configuration in the `routes` file means that this method
     * will be called when the application receives a `POST` request with
@@ -29,13 +29,32 @@ class PageViewController @Inject()(cc: ControllerComponents, pageViewRepository:
 
     val maybeJson: Option[JsValue] = request.body.asJson
     logger.info(
-      s"Http request received on /v1/page route implemented by pageView action with body : ${maybeJson.map(Json.prettyPrint(_))}"
+      s"Http request received on POST /v1/page route implemented by pageView action with body : ${maybeJson.map(Json.prettyPrint(_))}"
     )
 
     maybeJson.map(_.as[PageView]) match {
       case Some(pageView) => pageViewRepository.saveUserPageView(pageView).map(_ => Ok(""))
       case None => Future.successful(BadRequest("Page view JSON is invalid"))
     }
+  }
+
+  /**
+    * Action to delete page view of a given user.
+    *
+    * The configuration in the `routes` file means that this method
+    * will be called when the application receives a `DELETE` request with
+    * a path of `v1/user/:userid`.
+    */
+  def deletePageViews(userid: String) = Action.async { implicit request: Request[AnyContent] =>
+
+    logger.info(s"Http request received on DELETE /v1/user/:$userid route implemented by deletePageViews action")
+
+    pageViewRepository.deleteUserPageViews(UUID.fromString(userid))
+      .map(_ => Ok(""))
+      .recover {
+        case ex: Throwable => logger.error(s"Failed to delete page views of user $userid because of ", ex)
+          InternalServerError("Unable to delete page views")
+      }
   }
 }
 

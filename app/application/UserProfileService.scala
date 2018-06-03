@@ -47,7 +47,7 @@ class UserProfileService {
       number_of_days_active_last_7_days = numberOfDaysActiveInLastSevenDays,
       number_pages_viewed_the_last_7_days = numberOfPagesVisitedInLastSevenDays,
       most_viewed_page_last_7_days = maxVisitedPageInLastSevenDays,
-      time_spent_on_site_last_7_days = 0.0
+      time_spent_on_site_last_7_days = 0.0 // TODO: yet to be implemented
     )
   }
 

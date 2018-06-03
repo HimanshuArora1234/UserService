@@ -40,7 +40,7 @@ class UserProfileControllerTest extends PlaySpec with GuiceOneAppPerTest with In
 
   "UserProfileController" should {
 
-    "return the user profile stats on calling GET /v1/user/:userid" in {
+    "return OK and correct user profile stats on calling GET /v1/user/:userid" in {
 
       val controller = new UserProfileController(
         stubControllerComponents(stubBodyParser(AnyContent(""))),

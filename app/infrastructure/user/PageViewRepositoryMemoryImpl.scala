@@ -23,7 +23,7 @@ class PageViewRepositoryMemoryImpl extends PageViewRepository {
     * @return pages visited
     */
   override def getUserPageViews(userId: UUID): Future[Seq[PageView]] = {
-    Future.successful(pageViewStore.filter(_.userId == userId))
+    Future.successful(pageViewStore.filter(_.user_id == userId))
   }
 
   /**
@@ -42,7 +42,7 @@ class PageViewRepositoryMemoryImpl extends PageViewRepository {
     * @param userId user id
     */
   override def deleteUserPageViews(userId: UUID): Future[Unit] = {
-    this.pageViewStore = pageViewStore.filterNot(_.userId == userId)
+    this.pageViewStore = pageViewStore.filterNot(_.user_id == userId)
     Future.successful(())
   }
 }

@@ -10,7 +10,7 @@ import play.api.mvc._
   * application's home page.
   */
 @Singleton
-class UserController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class UserProfileController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
 
   val logger = Logger.logger
 

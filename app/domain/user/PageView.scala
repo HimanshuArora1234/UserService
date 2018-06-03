@@ -7,11 +7,11 @@ import play.api.libs.json.Json
 /**
   * Domain object to hold user's page view activity.
   *
-  * @param userId      User's unique id,
-  * @param pageVisited Page name visited by user
+  * @param user_id      User's unique id,
+  * @param name Page name visited by user
   * @param timestamp
   */
-case class PageView(userId: UUID, pageVisited: String, timestamp: Long)
+case class PageView(user_id: UUID, name: String, timestamp: String)
 
 /**
   * Companion object.

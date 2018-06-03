@@ -16,7 +16,7 @@ class UserControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting
   "HomeController GET" should {
 
     "render the index page from a new instance of controller" in {
-      val controller = new UserController(stubControllerComponents())
+      val controller = new UserProfileController(stubControllerComponents())
       val home = controller.index().apply(FakeRequest(GET, "/"))
 
       status(home) mustBe OK
@@ -25,7 +25,7 @@ class UserControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting
     }
 
     "render the index page from the application" in {
-      val controller = inject[UserController]
+      val controller = inject[UserProfileController]
       val home = controller.index().apply(FakeRequest(GET, "/"))
 
       status(home) mustBe OK

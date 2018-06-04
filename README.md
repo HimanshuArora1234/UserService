@@ -63,7 +63,7 @@ Technical stack to be used for this service consists of
  
  ### Desgin & Architecture
  
-Since its a microservice implementing a very well defined funtional boundry (aka a domain) so it is logical to use the Domain Driven Design appraoch with onion architecture illustrated as follows:
+Since its a microservice implementing a very well defined funtional boundry (aka a domain) so it is logical to use the Domain Driven Design(DDD) appraoch with onion architecture illustrated as follows:
 
 ![Design](/design.png)
 
@@ -74,4 +74,7 @@ Since its a microservice implementing a very well defined funtional boundry (aka
 
 Between the layers of the Onion, there is a strong dependency rule: outer layers can depend on lower layers, but no code in the lower layer can depend directly on any code in the outer layer.
  
+ ### Data persistence
+ 
+User's page view activity data will be stored into memory. Since we are using DDD approach so it's quite easy to have another implementation of page view data repository using a database and plug it in the infrasturcture layer instead of memory impelementation in future.
 

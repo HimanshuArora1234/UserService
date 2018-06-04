@@ -44,6 +44,8 @@ Delete all data about a user, ie. the raw events data if stored, and the aggrega
 
 `DELETE v1/user/:userid`
 
+----------------------------------------------------------------------------------------------------------------------------------------
+
 ## Technical requirement document
 
 This microservice implements the following use cases
@@ -64,6 +66,12 @@ Technical stack to be used for this service consists of
 Since its a microservice implementing a very well defined funtional boundry (aka a domain) so it is logical to use the Domain Driven Design appraoch with onion architecture illustrated as follows:
 
 ![Design](/design.png)
- 
+
+**Domain Model layer**, where our entities and classes closely related to them reside.
+**Application Services layer**, where application-specific logic i.e. our use cases reside.
+**Interface layer**, where the rest endpoints, UI etc. reside. This layer is directly accessed by users and other applications.
+**Infrastructure layer**, where the implementatations of data repositories, database access, dependency wirings etc. reside.
+
+Between the layers of the Onion, there is a strong dependency rule: outer layers can depend on lower layers, but no code in the lower layer can depend directly on any code in the outer layer.
  
 

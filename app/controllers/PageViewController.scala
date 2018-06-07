@@ -3,6 +3,7 @@ package controllers
 import java.util.UUID
 import javax.inject.Inject
 
+import akka.actor.ActorSystem
 import domain.user.{PageView, PageViewRepository}
 import play.api.Logger
 import play.api.libs.json.{JsValue, Json}
@@ -13,8 +14,8 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Controller to handle page view related http requests.
   */
-class PageViewController @Inject()(cc: ControllerComponents, pageViewRepository: PageViewRepository)(implicit ec: ExecutionContext)
-  extends AbstractController(cc) {
+class PageViewController @Inject()(cc: ControllerComponents, pageViewRepository: PageViewRepository)
+                                  (implicit ec: ExecutionContext, actorSystem: ActorSystem) extends AbstractController(cc) {
 
   val logger = Logger.logger
 

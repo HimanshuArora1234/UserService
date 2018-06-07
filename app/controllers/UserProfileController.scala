@@ -3,8 +3,10 @@ package controllers
 import java.util.UUID
 import javax.inject._
 
+import akka.actor.{ActorRef, ActorSystem}
 import application.UserProfileService
 import domain.user.PageViewRepository
+import infrastructure.actor.ActorFactory
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.mvc._
@@ -19,7 +21,7 @@ class UserProfileController @Inject()(
                                        cc: ControllerComponents,
                                        pageViewRepository: PageViewRepository,
                                        userProfileService: UserProfileService
-                                     )(implicit ec: ExecutionContext)
+                                     )(implicit ec: ExecutionContext, actorSystem: ActorSystem)
   extends AbstractController(cc) {
 
   val logger = Logger.logger
@@ -35,6 +37,9 @@ class UserProfileController @Inject()(
 
     logger.info(s"Http request received on GET /v1/user/:$userid route implemented by getUserProfile action")
     val userUUID = UUID.fromString(userid)
+
+    val sessionActor:ActorRef = ActorFactory.getOrCreateSessionActor(userUUID)
+    logger.info("#################################### " + sessionActor.path.toString)
 
     pageViewRepository.getUserPageViews(userUUID)
       .map(userProfileService.generateUserProfileStats(userUUID, _))

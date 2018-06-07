@@ -11,7 +11,7 @@ import play.api.libs.json.Json
   * @param loginTimestamp  timestamp when user logged in
   * @param logoutTimestamp timestamp when user logged out
   */
-case class UserSession(user_id: UUID, loginTimestamp: Long, logoutTimestamp: Option[Long])
+case class UserSession(user_id: UUID, loginTimestamp: String, logoutTimestamp: String)
 
 /**
   * Companion object.

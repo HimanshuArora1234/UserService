@@ -3,8 +3,9 @@ package controllers
 import java.util.UUID
 import javax.inject.Inject
 
-import akka.actor.ActorSystem
-import domain.user.{PageView, PageViewRepository}
+import akka.actor.{ActorRef, ActorSystem}
+import domain.user.{PageView, PageViewRepository, UserSessionRepository}
+import infrastructure.actor.{ActorFactory, PageViewEvent}
 import play.api.Logger
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
@@ -14,8 +15,11 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Controller to handle page view related http requests.
   */
-class PageViewController @Inject()(cc: ControllerComponents, pageViewRepository: PageViewRepository)
-                                  (implicit ec: ExecutionContext, actorSystem: ActorSystem) extends AbstractController(cc) {
+class PageViewController @Inject()(
+                                    cc: ControllerComponents,
+                                    pageViewRepository: PageViewRepository,
+                                    userSessionRepository: UserSessionRepository
+                                  )(implicit ec: ExecutionContext, actorSystem: ActorSystem) extends AbstractController(cc) {
 
   val logger = Logger.logger
 
@@ -34,7 +38,13 @@ class PageViewController @Inject()(cc: ControllerComponents, pageViewRepository:
     )
 
     maybeJson.map(_.as[PageView]) match {
-      case Some(pageView) => pageViewRepository.saveUserPageView(pageView).map(_ => Ok(""))
+      case Some(pageView) =>
+
+        // Track user login on the reception of Page view event
+        val eventualSessionActor: Future[ActorRef] = ActorFactory.getOrCreateSessionActor(pageView.user_id, userSessionRepository)
+        eventualSessionActor.map(_.tell(PageViewEvent, ActorRef.noSender))
+
+        pageViewRepository.saveUserPageView(pageView).map(_ => Ok(""))
       case None => Future.successful(BadRequest("Page view JSON is invalid"))
     }
   }

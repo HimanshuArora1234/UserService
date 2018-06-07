@@ -1,10 +1,11 @@
 package application
 
-import java.time.Instant
-import java.time.temporal.ChronoUnit
+import java.time.{Duration, Instant}
+import java.time.temporal.{ChronoUnit, TemporalUnit}
 import java.util.UUID
+import scala.math._
 
-import domain.user.{PageView, UserProfile}
+import domain.user.{PageView, UserProfile, UserSession}
 
 /**
   * Application service for [[domain.user.UserProfile]].
@@ -16,14 +17,20 @@ class UserProfileService {
     *
     * @param userId        user id
     * @param userPageViews page viewed by user
+    * @param userSessions  User session events
     * @return user's profile stats
     */
-  def generateUserProfileStats(userId: UUID, userPageViews: Seq[PageView]): UserProfile = {
+  def generateUserProfileStats(userId: UUID, userPageViews: Seq[PageView], userSessions: Seq[UserSession]): UserProfile = {
 
     val currentTimestamp: Long = Instant.now.toEpochMilli
     val sevenDaysBeforeTimestamp: Long = Instant.now.minus(7, ChronoUnit.DAYS).toEpochMilli
+
     val pageViewsInLastSevenDays: Seq[PageView] = userPageViews.filter(pV =>
-      pV.user_id == userId && pV.timestamp >= sevenDaysBeforeTimestamp && pV.timestamp <= currentTimestamp
+      pV.timestamp >= sevenDaysBeforeTimestamp && pV.timestamp <= currentTimestamp
+    )
+
+    val sessionEventsOfLastSevenDays: Seq[UserSession] = userSessions.filter(uS =>
+      uS.loginTimestamp >= sevenDaysBeforeTimestamp && uS.logoutTimestamp <= currentTimestamp
     )
 
     val numberOfPagesVisitedInLastSevenDays: Int = pageViewsInLastSevenDays.length
@@ -47,13 +54,17 @@ class UserProfileService {
       (countInstantTuple1, countInstantTuple2) => (countInstantTuple1._1 + countInstantTuple2._1, countInstantTuple1._2)
     )._1
 
+    val totalTimeSpentOnSiteInLastSevenDays: Long  = sessionEventsOfLastSevenDays.map(uS =>
+      Duration.between(Instant.parse(uS.loginTimestamp), Instant.parse(uS.logoutTimestamp)).getSeconds
+    ).sum  // In Seconds
+
 
     UserProfile(
       userId = userId,
       number_of_days_active_last_7_days = numberOfDaysActiveInLastSevenDays,
       number_pages_viewed_the_last_7_days = numberOfPagesVisitedInLastSevenDays,
       most_viewed_page_last_7_days = maxVisitedPageInLastSevenDays,
-      time_spent_on_site_last_7_days = 0.0 // TODO: yet to be implemented
+      time_spent_on_site_last_7_days = ((totalTimeSpentOnSiteInLastSevenDays / 60.0) * 100).round / 100.toDouble // In minutes, 2 decimal places
     )
   }
 

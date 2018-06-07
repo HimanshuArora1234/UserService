@@ -9,7 +9,7 @@ import play.api.libs.json.Json
   *
   * @param userId                              user's unique id
   * @param number_pages_viewed_the_last_7_days number of pages visited by user in last 7 days
-  * @param time_spent_on_site_last_7_days      time spent (in hours) on site in last 7 days
+  * @param time_spent_on_site_last_7_days      time spent (in minutes) on site in last 7 days
   * @param number_of_days_active_last_7_days   number of days user was active in last 7 days
   * @param most_viewed_page_last_7_days        most viewed page name in last 7 days
   */

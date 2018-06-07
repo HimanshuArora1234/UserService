@@ -3,9 +3,8 @@ package controllers
 import java.util.UUID
 import javax.inject._
 
-import akka.actor.ActorSystem
 import application.UserProfileService
-import domain.user.PageViewRepository
+import domain.user.{PageViewRepository, UserSessionRepository}
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.mvc._
@@ -19,7 +18,8 @@ import scala.concurrent.ExecutionContext
 class UserProfileController @Inject()(
                                        cc: ControllerComponents,
                                        pageViewRepository: PageViewRepository,
-                                       userProfileService: UserProfileService
+                                       userProfileService: UserProfileService,
+                                       userSessionRepository: UserSessionRepository
                                      )(implicit ec: ExecutionContext)
   extends AbstractController(cc) {
 
@@ -37,13 +37,15 @@ class UserProfileController @Inject()(
     logger.info(s"Http request received on GET /v1/user/:$userid route implemented by getUserProfile action")
     val userUUID = UUID.fromString(userid)
 
-    pageViewRepository.getUserPageViews(userUUID)
-      .map(userProfileService.generateUserProfileStats(userUUID, _))
-      .map(profile => Ok(Json.toJson(profile)))
-      .recover {
-        case ex: Throwable => logger.error(s"Failed to generate user profile stats for user $userid because of ", ex)
-          InternalServerError("Unable to retrieve user profile stats")
-      }
-
+    (
+      for {
+        pageViews <- pageViewRepository.getUserPageViews(userUUID)
+        userSessions <- userSessionRepository.getUserSessionEvents(userUUID)
+        userProfile = userProfileService.generateUserProfileStats(userUUID, pageViews, userSessions)
+      } yield Ok(Json.toJson(userProfile))
+      ) recover {
+      case ex: Throwable => logger.error(s"Failed to generate user profile stats for user $userid because of ", ex)
+        InternalServerError("Unable to retrieve user profile stats")
+    }
   }
 }

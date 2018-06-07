@@ -39,8 +39,9 @@ class UserProfileController @Inject()(
 
     (
       for {
-        pageViews <- pageViewRepository.getUserPageViews(userUUID)
         userSessions <- userSessionRepository.getUserSessionEvents(userUUID)
+        pageViews <- pageViewRepository.getUserPageViews(userUUID)
+        if !userSessions.isEmpty || !pageViews.isEmpty
         userProfile = userProfileService.generateUserProfileStats(userUUID, pageViews, userSessions)
       } yield Ok(Json.toJson(userProfile))
       ) recover {

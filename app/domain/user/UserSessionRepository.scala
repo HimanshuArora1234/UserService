@@ -24,4 +24,11 @@ trait UserSessionRepository {
     */
   def saveUserSessionEvent(userSession: UserSession): Future[Unit]
 
+  /**
+    * Deletes user's all session events.
+    *
+    * @param userId user id
+    */
+  def deleteUserSessionEvent(userId: UUID): Future[Unit]
+
 }

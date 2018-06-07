@@ -60,12 +60,17 @@ class PageViewController @Inject()(
 
     logger.info(s"Http request received on DELETE /v1/user/:$userid route implemented by deletePageViews action")
 
-    pageViewRepository.deleteUserPageViews(UUID.fromString(userid))
-      .map(_ => Ok(""))
-      .recover {
-        case ex: Throwable => logger.error(s"Failed to delete page views of user $userid because of ", ex)
-          InternalServerError("Unable to delete page views")
-      }
+    val userId: UUID = UUID.fromString(userid)
+
+    (
+      for {
+        _ <- pageViewRepository.deleteUserPageViews(userId)
+        - <- userSessionRepository.deleteUserSessionEvent(userId)
+      } yield Ok("")
+      ) recover {
+      case ex: Throwable => logger.error(s"Failed to delete page views of user $userid because of ", ex)
+        InternalServerError("Unable to delete page views")
+    }
   }
 }
 

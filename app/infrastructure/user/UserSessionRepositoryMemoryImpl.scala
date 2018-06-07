@@ -38,4 +38,14 @@ class UserSessionRepositoryMemoryImpl extends UserSessionRepository {
     this.userSessionStore = userSessionStore :+ userSession
     Future.successful(())
   }
+
+  /**
+    * Deletes user's all session events.
+    *
+    * @param userId user id
+    */
+  override def deleteUserSessionEvent(userId: UUID): Future[Unit] = {
+    this.userSessionStore = userSessionStore.filterNot(_.user_id == userId)
+    Future.successful(())
+  }
 }

@@ -85,3 +85,15 @@ To compute the stats of time spent by user in last 7 days we will need to track 
 
 Akka actors come handy to implement this logic. As soon as the 1st page view for a user is recevied an actor will be created. This actor has a particularity that if it stays idle for 2 min i.e. no message processed for 2 mins then it considers user logged out, stores login and logout timestamps and kills itself. If a subsequent page view for the user under consideration is received then actor does nothing which means that actor's idle time is reset to zero. So that's how we track user session in this microservice.
 
+
+------------------------------------------------------------------------------------------------------------------------
+
+## How to use
+
+Clone this repository and run the following command : `sbt run`. The service will be available at `http://localhost:9000`.
+
+
+The routes of service are same as descriped above in PRD. Just one difference that you mush use a valid **UUID** for user as for exemple: `faa04480-6afa-11e8-adc0-fa7ae01bbebc`
+
+
+

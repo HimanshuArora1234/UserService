@@ -10,8 +10,7 @@ import org.scalatestplus.play.PlaySpec
 /**
   * Unit test suite for [[PageViewRepositoryMemoryImpl]].
   */
-class PageViewRepositoryMemoryImplTest extends PlaySpec
-  with ScalaFutures {
+class PageViewRepositoryMemoryImplTest extends PlaySpec with ScalaFutures {
 
   val pageViewRepositoryMemoryImpl: PageViewRepositoryMemoryImpl = new PageViewRepositoryMemoryImpl
 

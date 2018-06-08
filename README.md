@@ -90,7 +90,7 @@ Akka actors come handy to implement this logic. As soon as the 1st page view for
 
 ------------------------------------------------------------------------------------------------------------------------
 
-## How to use
+## How to run
 
 Clone this repository and run the following command : `sbt run`. The service will be available at `http://localhost:9000`.
 

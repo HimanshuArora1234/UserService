@@ -59,6 +59,7 @@ This microservice implements the following use cases
 Technical stack to be used for this service consists of
  - **Scala** which brings the power of OOP & Functional programming together. Scala provides a way to reason about performing many operations in parallel– in an efficient and non-blocking way using `Futures` which also concludes in better utilisation of CPU cores.
  - **Play Framework** allows us to create RESTFul API and microservices at ease. It is a non-blocking, asynchronous and stateless framework and designed in a way to increase the productivity and facilitate fast delivery. Hence a perfect choice for microservices architecture.
+ - **Akka actors** simplify the construction of concurrent and distributed applications on the JVM. This microservice uses actors for tracking the user login & logout events. Detailed description available later in the document.
 
  
  ### Design & Architecture
@@ -77,4 +78,10 @@ Between the layers of the Onion, there is a strong dependency rule: outer layers
  ### Data persistence
  
 User's page view activity data will be stored into memory. Since we are using DDD approach so it's quite easy to have another implementation of page view data repository using a database and plug it in the infrastructure layer instead of memory implementation in future.
+
+### Session management
+
+To compute the stats of time spent by user in last 7 days we will need to track and persist user's login and logout events. When the service receives a page view event from a user then user is considered as logged-in and if no event is received during the following 2 mins then user is assumed to be logged-out. 
+
+Akka actors come handy to implement this logic. As soon as the 1st page view for a user is recevied an actor will be created. This actor has a particularity that if it stays idle for 2 min i.e. no message processed for 2 mins then it considers user logged out, stores login and logout timestamps and kills itself. If a subsequent page view for the user under consideration is received then actor does nothing which means that actor's idle time is reset to zero. So that's how we track user session in this microservice.
 

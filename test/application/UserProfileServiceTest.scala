@@ -4,7 +4,9 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.UUID
 
-import domain.user.{PageView, UserProfile, UserSession}
+import domain.user.PageView.PageView
+import domain.user.UserProfile.UserProfile
+import domain.user.UserSession.UserSession
 import org.scalatestplus.play.PlaySpec
 
 /**

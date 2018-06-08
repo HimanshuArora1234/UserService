@@ -1,9 +1,9 @@
-package infrastructure.user
+package infrastructure.user.PageView
 
 import java.util.UUID
 import javax.inject.Singleton
 
-import domain.user.{PageView, PageViewRepository}
+import domain.user.PageView.{PageView, PageViewRepository}
 
 import scala.concurrent.Future
 

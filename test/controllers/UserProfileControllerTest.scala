@@ -4,8 +4,11 @@ import java.time.Instant
 import java.util.UUID
 
 import application.UserProfileService
-import domain.user.{PageView, UserProfile, UserSession}
-import infrastructure.user.{PageViewRepositoryMemoryImpl, UserSessionRepositoryMemoryImpl}
+import domain.user.PageView.PageView
+import domain.user.UserProfile.UserProfile
+import domain.user.UserSession.UserSession
+import infrastructure.user.PageView.PageViewRepositoryMemoryImpl
+import infrastructure.user.UserSession.UserSessionRepositoryMemoryImpl
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mockito.MockitoSugar

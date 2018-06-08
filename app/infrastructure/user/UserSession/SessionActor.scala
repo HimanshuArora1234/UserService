@@ -1,12 +1,12 @@
-package infrastructure.actor
+package infrastructure.user.UserSession
 
 import java.time.Instant
 import java.util.UUID
 
 import akka.actor.{Actor, PoisonPill, ReceiveTimeout}
 import com.typesafe.config.{Config, ConfigFactory}
-import domain.user.{UserSession, UserSessionRepository}
-import infrastructure.actor.SessionActor._
+import domain.user.UserSession.{UserSession, UserSessionRepository}
+import infrastructure.user.UserSession.SessionActor._
 import play.api.Logger
 
 import scala.concurrent.duration._
@@ -49,7 +49,7 @@ class SessionActor(uuid: UUID, userSessionRepository: UserSessionRepository) ext
 
       self ! PoisonPill // Killing actor
 
-    case PageViewEvent => if(loginInstant.isEmpty) {
+    case PageViewEvent => if (loginInstant.isEmpty) {
       logger.info(s"User $uuid just logged in")
       loginInstant = Some(Instant.now)
     }

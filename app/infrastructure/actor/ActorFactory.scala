@@ -3,7 +3,8 @@ package infrastructure.actor
 import java.util.UUID
 
 import akka.actor.{ActorRef, ActorSystem, Props}
-import domain.user.UserSessionRepository
+import domain.user.UserSession.UserSessionRepository
+import infrastructure.user.UserSession.SessionActor
 import play.api.Logger
 
 import scala.concurrent.duration._

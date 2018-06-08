@@ -1,15 +1,14 @@
-package infrastructure
+package infrastructure.user.PageView
 
 import java.time.Instant
 import java.util.UUID
 
-import domain.user.PageView
-import infrastructure.user.PageViewRepositoryMemoryImpl
+import domain.user.PageView.PageView
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.play.PlaySpec
 
 /**
-  * Unit test suite for [[infrastructure.user.PageViewRepositoryMemoryImpl]].
+  * Unit test suite for [[PageViewRepositoryMemoryImpl]].
   */
 class PageViewRepositoryMemoryImplTest extends PlaySpec
   with ScalaFutures {

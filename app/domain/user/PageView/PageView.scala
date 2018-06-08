@@ -1,4 +1,4 @@
-package domain.user
+package domain.user.PageView
 
 import java.util.UUID
 

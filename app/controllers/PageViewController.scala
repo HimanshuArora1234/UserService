@@ -4,8 +4,10 @@ import java.util.UUID
 import javax.inject.Inject
 
 import akka.actor.{ActorRef, ActorSystem}
-import domain.user.{PageView, PageViewRepository, UserSessionRepository}
-import infrastructure.actor.{ActorFactory, PageViewEvent}
+import domain.user.PageView.{PageView, PageViewRepository}
+import domain.user.UserSession.UserSessionRepository
+import infrastructure.actor.ActorFactory
+import infrastructure.user.UserSession.PageViewEvent
 import play.api.Logger
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
@@ -24,7 +26,7 @@ class PageViewController @Inject()(
   val logger = Logger.logger
 
   /**
-    * Action to Post a page view [[domain.user.PageView]].
+    * Action to Post a page view [[PageView]].
     *
     * The configuration in the `routes` file means that this method
     * will be called when the application receives a `POST` request with

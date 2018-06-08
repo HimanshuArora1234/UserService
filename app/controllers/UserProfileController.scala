@@ -4,7 +4,8 @@ import java.util.UUID
 import javax.inject._
 
 import application.UserProfileService
-import domain.user.{PageViewRepository, UserSessionRepository}
+import domain.user.PageView.PageViewRepository
+import domain.user.UserSession.UserSessionRepository
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.mvc._

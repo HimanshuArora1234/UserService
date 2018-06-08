@@ -1,14 +1,15 @@
 package application
 
+import java.time.temporal.ChronoUnit
 import java.time.{Duration, Instant}
-import java.time.temporal.{ChronoUnit, TemporalUnit}
 import java.util.UUID
-import scala.math._
 
-import domain.user.{PageView, UserProfile, UserSession}
+import domain.user.PageView.PageView
+import domain.user.UserProfile.UserProfile
+import domain.user.UserSession.UserSession
 
 /**
-  * Application service for [[domain.user.UserProfile]].
+  * Application service for [[UserProfile]].
   */
 class UserProfileService {
 
@@ -54,9 +55,9 @@ class UserProfileService {
       (countInstantTuple1, countInstantTuple2) => (countInstantTuple1._1 + countInstantTuple2._1, countInstantTuple1._2)
     )._1
 
-    val totalTimeSpentOnSiteInLastSevenDays: Long  = sessionEventsOfLastSevenDays.map(uS =>
+    val totalTimeSpentOnSiteInLastSevenDays: Long = sessionEventsOfLastSevenDays.map(uS =>
       Duration.between(Instant.parse(uS.loginTimestamp), Instant.parse(uS.logoutTimestamp)).getSeconds
-    ).sum  // In Seconds
+    ).sum // In Seconds
 
 
     UserProfile(

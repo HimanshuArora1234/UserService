@@ -1,8 +1,10 @@
 package infrastructure.wiring
 
 import com.google.inject.AbstractModule
-import domain.user.{PageViewRepository, UserSessionRepository}
-import infrastructure.user.{PageViewRepositoryMemoryImpl, UserSessionRepositoryMemoryImpl}
+import domain.user.PageView.PageViewRepository
+import domain.user.UserSession.UserSessionRepository
+import infrastructure.user.PageView.PageViewRepositoryMemoryImpl
+import infrastructure.user.UserSession.UserSessionRepositoryMemoryImpl
 
 /**
   * Guice's wiring module.

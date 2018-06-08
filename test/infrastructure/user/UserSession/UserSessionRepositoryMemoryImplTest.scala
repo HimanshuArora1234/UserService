@@ -1,16 +1,15 @@
 
-package infrastructure
+package infrastructure.user.UserSession
 
 import java.time.Instant
 import java.util.UUID
 
-import domain.user.UserSession
-import infrastructure.user.UserSessionRepositoryMemoryImpl
+import domain.user.UserSession.UserSession
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.play.PlaySpec
 
 /**
-  * Unit test suite for [[infrastructure.user.UserSessionRepositoryMemoryImpl]].
+  * Unit test suite for [[UserSessionRepositoryMemoryImpl]].
   */
 class UserSessionRepositoryMemoryImplTest extends PlaySpec
   with ScalaFutures {

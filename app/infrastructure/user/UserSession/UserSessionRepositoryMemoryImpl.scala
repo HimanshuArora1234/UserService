@@ -1,15 +1,15 @@
-package infrastructure.user
+package infrastructure.user.UserSession
 
 import java.util.UUID
 import javax.inject.Singleton
 
-import domain.user.{UserSession, UserSessionRepository}
+import domain.user.UserSession.{UserSession, UserSessionRepository}
 
 import scala.concurrent.Future
 
 
 /**
-  * Memory implementation of [[domain.user.UserSessionRepository]].
+  * Memory implementation of [[UserSessionRepository]].
   */
 @Singleton
 class UserSessionRepositoryMemoryImpl extends UserSessionRepository {

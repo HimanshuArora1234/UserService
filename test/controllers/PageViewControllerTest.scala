@@ -3,8 +3,9 @@ package controllers
 import java.util.UUID
 
 import akka.actor.ActorSystem
-import domain.user.PageView
-import infrastructure.user.{PageViewRepositoryMemoryImpl, UserSessionRepositoryMemoryImpl}
+import domain.user.PageView.PageView
+import infrastructure.user.PageView.PageViewRepositoryMemoryImpl
+import infrastructure.user.UserSession.UserSessionRepositoryMemoryImpl
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mockito.MockitoSugar

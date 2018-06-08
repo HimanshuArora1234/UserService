@@ -1,10 +1,10 @@
+package infrastructure.user.UserSession
+
 import java.util.UUID
 
 import akka.actor.{ActorSystem, Props, ReceiveTimeout}
 import akka.testkit.{TestActorRef, TestKit, TestProbe}
-import domain.user.UserSession
-import infrastructure.actor.{PageViewEvent, SessionActor}
-import infrastructure.user.UserSessionRepositoryMemoryImpl
+import domain.user.UserSession.UserSession
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mockito.MockitoSugar
@@ -13,7 +13,7 @@ import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
 import scala.concurrent.Future
 
 /**
-  * Unit test suite for [[infrastructure.actor.SessionActor]].
+  * Unit test suite for [[SessionActor]].
   */
 class SessionActorTest extends TestKit(ActorSystem("Session-Actor-Test-System")) with WordSpecLike
   with BeforeAndAfterAll with MockitoSugar {

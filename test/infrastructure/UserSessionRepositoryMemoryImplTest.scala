@@ -32,7 +32,7 @@ class UserSessionRepositoryMemoryImplTest extends PlaySpec
     }
 
     "delete user's all session events" in {
-      userSessionRepositoryMemoryImpl.deleteUserSessionEvent(userId).futureValue
+      userSessionRepositoryMemoryImpl.deleteUserSessionEvents(userId).futureValue
       userSessionRepositoryMemoryImpl.getUserSessionEvents(userId).futureValue.contains(userSession) mustBe false
     }
   }

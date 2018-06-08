@@ -65,7 +65,7 @@ class PageViewController @Inject()(
     (
       for {
         _ <- pageViewRepository.deleteUserPageViews(userId)
-        - <- userSessionRepository.deleteUserSessionEvent(userId)
+        - <- userSessionRepository.deleteUserSessionEvents(userId)
       } yield Ok("")
       ) recover {
       case ex: Throwable => logger.error(s"Failed to delete page views of user $userid because of ", ex)

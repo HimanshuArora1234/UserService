@@ -2,8 +2,9 @@ package controllers
 
 import java.util.UUID
 
+import akka.actor.ActorSystem
 import domain.user.PageView
-import infrastructure.user.PageViewRepositoryMemoryImpl
+import infrastructure.user.{PageViewRepositoryMemoryImpl, UserSessionRepositoryMemoryImpl}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mockito.MockitoSugar
@@ -23,10 +24,15 @@ import scala.concurrent.Future
   */
 class PageViewControllerTest extends PlaySpec with GuiceOneAppPerTest with Injecting with MockitoSugar {
 
+  implicit val actorSystem: ActorSystem = ActorSystem("Test-Actor-System")
+
   val mockPageViewRepository: PageViewRepositoryMemoryImpl = mock[PageViewRepositoryMemoryImpl]
 
   when(mockPageViewRepository.saveUserPageView(any[PageView])).thenReturn(Future.successful(()))
   when(mockPageViewRepository.deleteUserPageViews(any[UUID])).thenReturn(Future.successful(()))
+
+  val mockUserSessionRepository: UserSessionRepositoryMemoryImpl = mock[UserSessionRepositoryMemoryImpl]
+  when(mockUserSessionRepository.deleteUserSessionEvents(any[UUID])).thenReturn(Future.successful(()))
 
   val pageView: PageView = PageView(
     user_id = UUID.randomUUID,
@@ -40,7 +46,8 @@ class PageViewControllerTest extends PlaySpec with GuiceOneAppPerTest with Injec
 
       val controller = new PageViewController(
         stubControllerComponents(stubBodyParser(AnyContent(""))),
-        mockPageViewRepository
+        mockPageViewRepository,
+        mockUserSessionRepository
       )
 
       val result = controller.pageView.apply(FakeRequest(GET, "/v1/page"))
@@ -52,7 +59,8 @@ class PageViewControllerTest extends PlaySpec with GuiceOneAppPerTest with Injec
 
       val controller = new PageViewController(
         stubControllerComponents(stubBodyParser(AnyContent(""))),
-        mockPageViewRepository
+        mockPageViewRepository,
+        mockUserSessionRepository
       )
 
       val result = controller.pageView.apply(FakeRequest(POST, "/v1/page").withJsonBody(Json.toJson(pageView)))
@@ -64,7 +72,8 @@ class PageViewControllerTest extends PlaySpec with GuiceOneAppPerTest with Injec
 
       val controller = new PageViewController(
         stubControllerComponents(stubBodyParser(AnyContent(""))),
-        mockPageViewRepository
+        mockPageViewRepository,
+        mockUserSessionRepository
       )
 
       val result = controller.deletePageViews("123e4567-e89b-42d3-a456-556642440000")

@@ -1,5 +1,4 @@
-![Build](https://travis-ci.org/HimanshuArora1234/UserService.svg?branch=master)(https://travis-ci.org/HimanshuArora1234/UserService)
-
+[![Build Status](https://travis-ci.org/HimanshuArora1234/UserService.svg?branch=master)](https://travis-ci.org/HimanshuArora1234/UserService)
 
 # UserService
 Microservice that receives data about page views and compute behavioural stats about users.

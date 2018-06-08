@@ -77,7 +77,7 @@ Between the layers of the Onion, there is a strong dependency rule: outer layers
  
  ### Data persistence
  
-User's page view activity data will be stored into memory. Since we are using DDD approach so it's quite easy to have another implementation of page view data repository using a database and plug it in the infrastructure layer instead of memory implementation in future.
+User's page view and session activity data will be stored into memory. Since we are using DDD approach so it's quite easy to have another implementation of page view or session data repository using a database and plug it in the infrastructure layer instead of memory implementation in future.
 
 ### Session management
 

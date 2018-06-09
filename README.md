@@ -95,7 +95,7 @@ Akka actors come handy to implement this logic. As soon as the 1st page view for
 Clone this repository and run the following command : `sbt run`. The service will be available at `http://localhost:9000`.
 
 
-The routes of service are same as descriped above in PRD. Just one difference that you mush use a valid **UUID** for `user_id` field as for exemple: `faa04480-6afa-11e8-adc0-fa7ae01bbebc`
+The routes of service are same as descriped above in PRD. Just one difference that you mush use a valid **UUID** for `user_id` field as for exemple: `faa04480-6afa-11e8-adc0-fa7ae01bbebc`.
 
 
 

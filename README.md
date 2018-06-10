@@ -53,8 +53,9 @@ Delete all data about a user, ie. the raw events data if stored, and the aggrega
 This microservice implements the following use cases
 
  - Saves user's page view activities
+ - Saves user's login/logout timestamps
  - Provides user's behavioural profile (stats) of last 7 days
- - Deletes user's all page view activities
+ - Deletes user's all page view and login/logout activities
  
 ### Technical stack
 

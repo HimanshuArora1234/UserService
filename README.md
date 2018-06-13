@@ -50,7 +50,7 @@ Delete all data about a user, ie. the raw events data if stored, and the aggrega
 
 ## Technical requirement document
 
-This microservice implements the following use cases
+This microservice implements the following use cases (or user stories)
 
  - Saves user's page view activities
  - Saves user's login/logout timestamps
